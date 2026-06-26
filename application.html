@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Western Region Leadership Interest Form — Alpha Phi Alpha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D0C0A;
+    --ink-2:#16140F;
+    --ink-3:#1D1A14;
+    --gold:#C9A452;
+    --gold-bright:#E3C275;
+    --cream:#F3EFE6;
+    --muted:#9C9586;
+    --line:rgba(201,164,82,0.22);
+    --error:#D9764A;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  ::selection{background:var(--gold);color:var(--ink);}
+
+  /* progress rule */
+  #progress-rail{
+    position:fixed;top:0;left:0;right:0;height:3px;
+    background:rgba(255,255,255,0.06);z-index:50;
+  }
+  #progress-fill{
+    height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold-bright));
+    transition:width .35s ease;
+  }
+
+  a{color:var(--gold-bright);}
+
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px;}
+
+  /* HERO */
+  header.hero{
+    padding:72px 0 56px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .mark{
+    width:56px;height:56px;margin-bottom:28px;
+  }
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--gold);font-weight:600;margin-bottom:18px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    font-size:clamp(34px,6vw,52px);
+    line-height:1.08;
+    margin:0 0 22px;
+    color:var(--cream);
+    letter-spacing:-0.01em;
+  }
+  h1 em{font-style:italic;color:var(--gold-bright);font-weight:500;}
+  .lede{
+    font-size:16px;
+    color:var(--muted);
+    max-width:620px;
+    margin:0 0 30px;
+  }
+  .lede strong{color:var(--cream);font-weight:600;}
+
+  .tags{display:flex;flex-wrap:wrap;gap:9px;}
+  .tag{
+    font-size:12.5px;
+    padding:7px 13px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    color:var(--gold-bright);
+    background:rgba(201,164,82,0.06);
+    white-space:nowrap;
+  }
+
+  /* FORM SECTION */
+  main{padding:56px 0 90px;}
+
+  .field-label{
+    display:block;
+    font-size:11.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .field-label .req{color:var(--error);margin-left:3px;}
+  .field-label .opt{
+    color:var(--muted);text-transform:none;letter-spacing:0;
+    font-weight:400;margin-left:6px;font-size:12px;
+  }
+
+  .field{margin-bottom:34px;}
+
+  .row2{
+    display:grid;grid-template-columns:1fr 1fr;gap:28px;
+  }
+  @media (max-width:620px){
+    .row2{grid-template-columns:1fr;gap:0;}
+  }
+
+  input[type=text],input[type=email],input[type=tel],textarea{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-size:17px;
+    padding:8px 2px 12px;
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  input::placeholder,textarea::placeholder{color:#5C564A;}
+  input:focus,textarea:focus{border-bottom-color:var(--gold);}
+  input:invalid:not(:placeholder-shown){border-bottom-color:var(--error);}
+
+  textarea{resize:vertical;min-height:118px;line-height:1.55;}
+
+  .counter{
+    margin-top:8px;font-size:12.5px;color:var(--muted);
+    display:flex;justify-content:flex-end;
+    font-variant-numeric:tabular-nums;
+  }
+  .counter.over{color:var(--error);}
+
+  /* legend / section divider */
+  .divider{
+    border:none;border-top:1px solid var(--line);
+    margin:46px 0 38px;
+  }
+  .section-title{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;
+    font-size:20px;color:var(--gold-bright);margin:0 0 26px;
+  }
+
+  /* resume upload */
+  .dropzone{
+    border:1px dashed var(--line);
+    border-radius:10px;
+    padding:26px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .2s ease,background .2s ease;
+    background:rgba(255,255,255,0.015);
+  }
+  .dropzone:hover,.dropzone.drag{
+    border-color:var(--gold);
+    background:rgba(201,164,82,0.06);
+  }
+  .dropzone input{display:none;}
+  .dz-title{font-size:14.5px;color:var(--cream);margin-bottom:4px;}
+  .dz-sub{font-size:12.5px;color:var(--muted);}
+  .file-chip{
+    display:none;
+    margin-top:14px;align-items:center;gap:10px;
+    font-size:13.5px;color:var(--gold-bright);
+    background:rgba(201,164,82,0.08);
+    border:1px solid var(--line);
+    border-radius:8px;padding:10px 14px;
+  }
+  .file-chip.show{display:flex;}
+  .file-chip button{
+    background:none;border:none;color:var(--muted);cursor:pointer;
+    font-size:13px;margin-left:auto;text-decoration:underline;
+  }
+
+  /* submit */
+  .submit-row{margin-top:50px;}
+  button#submit-btn{
+    width:100%;
+    background:var(--gold);
+    color:var(--ink);
+    border:none;
+    padding:17px 0;
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.03em;
+    border-radius:6px;
+    cursor:pointer;
+    transition:background .2s ease,transform .15s ease;
+  }
+  button#submit-btn:hover{background:var(--gold-bright);}
+  button#submit-btn:active{transform:scale(.997);}
+  button#submit-btn:disabled{opacity:.55;cursor:not-allowed;}
+
+  .fineprint{
+    margin-top:16px;font-size:12.5px;color:var(--muted);text-align:center;
+  }
+  .form-error{
+    color:var(--error);font-size:13.5px;margin-top:14px;text-align:center;
+    display:none;
+  }
+  .form-error.show{display:block;}
+
+  /* success state */
+  #success{
+    display:none;
+    text-align:center;
+    padding:70px 0;
+  }
+  #success.show{display:block;}
+  #success .mark{margin:0 auto 28px;}
+  #success h2{
+    font-family:'Fraunces',serif;font-weight:500;font-size:30px;margin:0 0 14px;color:var(--cream);
+  }
+  #success p{color:var(--muted);max-width:440px;margin:0 auto;}
+
+  #app-form.hide{display:none;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:26px 0 50px;
+    text-align:center;
+    font-size:12px;color:var(--muted);letter-spacing:.04em;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress-rail"><div id="progress-fill"></div></div>
+
+<header class="hero">
+  <div class="wrap">
+    <svg class="mark" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="26.5" stroke="#C9A452" stroke-width="1.2"/>
+      <text x="28" y="34" text-anchor="middle" font-family="Fraunces, serif" font-size="17" fill="#E3C275" font-style="italic">ΑΦΑ</text>
+    </svg>
+    <div class="eyebrow">Western Region · College Leadership Team</div>
+    <h1>Lead with us <em>this</em> term.</h1>
+    <p class="lede">
+      Thank you for expressing your interest in helping to lead the Western Region of Alpha Phi Alpha Fraternity, Inc.
+      This form is <strong>not</strong> an application for a specific position — it's open ended, and will inform how
+      brothers are strategically placed across the College Leadership Team's key functions.
+    </p>
+    <div class="tags">
+      <span class="tag">Executive Suite</span>
+      <span class="tag">District Leadership</span>
+      <span class="tag">Communications &amp; Social Media</span>
+      <span class="tag">Technology</span>
+      <span class="tag">Convention Planning</span>
+      <span class="tag">Investigations</span>
+      <span class="tag">Legal &amp; Compliance</span>
+      <span class="tag">Administration</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <form id="app-form">
+
+    <p class="section-title">Brother information</p>
+
+    <div class="row2">
+      <div class="field">
+        <label class="field-label" for="name">Full name<span class="req">*</span></label>
+        <input type="text" id="name" name="name" placeholder="John Q. Brother" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="phone">Phone number<span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label class="field-label" for="email">Email address<span class="req">*</span></label>
+        <input type="email" id="email" name="email" placeholder="you@email.com" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="chapter">Chapter<span class="req">*</span></label>
+        <input type="text" id="chapter" name="chapter" placeholder="e.g., Beta Eta" required>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="field">
+        <label class="field-label" for="season">Season initiated<span class="req">*</span></label>
+        <input type="text" id="season" name="season" placeholder="e.g., Fall 2014" required>
+      </div>
+      <div class="field">
+        <label class="field-label" for="alphaId">Alpha ID number<span class="req">*</span></label>
+        <input type="text" id="alphaId" name="alphaId" placeholder="e.g., 123456" required>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <p class="section-title">Your fit</p>
+
+    <div class="field">
+      <label class="field-label" for="strengths">
+        What are your core strengths, and how are you interested in leveraging them to support the Western Region?<span class="req">*</span>
+      </label>
+      <textarea id="strengths" name="strengths" maxlength="1400" placeholder="Speak plainly — what you're good at, and where you'd put it to work." required></textarea>
+      <div class="counter" id="word-counter">0 / 150 words</div>
+    </div>
+
+    <hr class="divider">
+    <p class="section-title">Resume <span style="color:var(--muted);font-style:normal;font-size:14px;">— optional</span></p>
+
+    <div class="field">
+      <label class="field-label" for="resume" style="margin-bottom:14px;">Upload resume <span class="opt">PDF or Word, up to 10MB</span></label>
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+        <div class="dz-title">Click to upload, or drag a file here</div>
+        <div class="dz-sub">This is optional and won't affect how your interest is reviewed</div>
+      </div>
+      <div class="file-chip" id="file-chip">
+        <span id="file-name"></span>
+        <button type="button" id="file-remove">Remove</button>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <button type="submit" id="submit-btn">Submit my interest</button>
+      <div class="fineprint">Your information goes directly to the Western Region leadership team.</div>
+      <div class="form-error" id="form-error">Something went wrong submitting the form. Please try again, or email us directly.</div>
+    </div>
+
+  </form>
+
+  <div id="success">
+    <svg class="mark" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="26.5" stroke="#C9A452" stroke-width="1.2"/>
+      <text x="28" y="34" text-anchor="middle" font-family="Fraunces, serif" font-size="17" fill="#E3C275" font-style="italic">ΑΦΑ</text>
+    </svg>
+    <h2>Thank you, Brother.</h2>
+    <p>Your interest has been recorded. The Western Region leadership team will be in touch as placements across the College Leadership Team are finalized.</p>
+  </div>
+
+</main>
+
+<footer>Western Region · Alpha Phi Alpha Fraternity, Inc.</footer>
+
+<script>
+  // ⚠️ Paste your deployed Google Apps Script Web App URL below — see SETUP.md
+  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxqOIGyxBiz3n4QIzUZkVAIrK3ChD5WOFeGryzOHSQ1wLBoXqo7s4gbeajymlNfoKHI/exec";
+
+  const form = document.getElementById('app-form');
+  const requiredFields = Array.from(form.querySelectorAll('[required]'));
+  const progressFill = document.getElementById('progress-fill');
+
+  function updateProgress(){
+    const filled = requiredFields.filter(f => f.value.trim().length > 0).length;
+    progressFill.style.width = (filled / requiredFields.length * 100) + '%';
+  }
+  requiredFields.forEach(f => f.addEventListener('input', updateProgress));
+
+  // word counter / limiter
+  const strengths = document.getElementById('strengths');
+  const counterEl = document.getElementById('word-counter');
+  const MAX_WORDS = 150;
+  strengths.addEventListener('input', () => {
+    let words = strengths.value.trim().length ? strengths.value.trim().split(/\s+/) : [];
+    if (words.length > MAX_WORDS){
+      strengths.value = words.slice(0, MAX_WORDS).join(' ');
+      words = words.slice(0, MAX_WORDS);
+    }
+    counterEl.textContent = words.length + ' / ' + MAX_WORDS + ' words';
+    counterEl.classList.toggle('over', words.length >= MAX_WORDS);
+  });
+
+  // dropzone
+  const dropzone = document.getElementById('dropzone');
+  const resumeInput = document.getElementById('resume');
+  const fileChip = document.getElementById('file-chip');
+  const fileName = document.getElementById('file-name');
+  const fileRemove = document.getElementById('file-remove');
+
+  dropzone.addEventListener('click', () => resumeInput.click());
+  ['dragenter','dragover'].forEach(evt =>
+    dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('drag'); })
+  );
+  ['dragleave','drop'].forEach(evt =>
+    dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('drag'); })
+  );
+  dropzone.addEventListener('drop', e => {
+    if (e.dataTransfer.files.length){
+      resumeInput.files = e.dataTransfer.files;
+      showFile();
+    }
+  });
+  resumeInput.addEventListener('change', showFile);
+  function showFile(){
+    if (resumeInput.files.length){
+      fileName.textContent = resumeInput.files[0].name;
+      fileChip.classList.add('show');
+    }
+  }
+  fileRemove.addEventListener('click', () => {
+    resumeInput.value = '';
+    fileChip.classList.remove('show');
+  });
+
+  // submit
+  const submitBtn = document.getElementById('submit-btn');
+  const formError = document.getElementById('form-error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formError.classList.remove('show');
+
+    if (FORM_ENDPOINT.indexOf('PASTE_YOUR') === 0){
+      formError.textContent = "This form isn't connected to a Google Sheet yet — see SETUP.md to finish setup.";
+      formError.classList.add('show');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    const fd = new FormData(form);
+
+    try {
+      await fetch(FORM_ENDPOINT, { method: 'POST', body: fd, mode: 'no-cors' });
+      form.classList.add('hide');
+      document.getElementById('success').classList.add('show');
+      window.scrollTo({top:0, behavior:'smooth'});
+    } catch (err){
+      formError.textContent = 'Something went wrong submitting the form. Please try again, or email us directly.';
+      formError.classList.add('show');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit my interest';
+    }
+  });
+</script>
+
+</body>
+</html>
