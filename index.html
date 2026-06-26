@@ -351,7 +351,7 @@
 
 <script>
   // ⚠️ Paste your deployed Google Apps Script Web App URL below — see SETUP.md
-  const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxqOIGyxBiz3n4QIzUZkVAIrK3ChD5WOFeGryzOHSQ1wLBoXqo7s4gbeajymlNfoKHI/exec";
+  const FORM_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
   const form = document.getElementById('app-form');
   const requiredFields = Array.from(form.querySelectorAll('[required]'));
@@ -428,6 +428,27 @@
 
     const fd = new FormData(form);
 
+    // Apps Script's e.files often doesn't populate when a file is sent via
+    // fetch()+FormData (only works reliably on a native browser form submit).
+    // So instead we base64-encode the resume here and send it as plain text
+    // fields, which the script decodes back into a file on the other end.
+    fd.delete('resume');
+    if (resumeInput.files.length){
+      try {
+        const file = resumeInput.files[0];
+        const base64 = await fileToBase64_(file);
+        fd.append('resumeBase64', base64);
+        fd.append('resumeName', file.name);
+        fd.append('resumeType', file.type || 'application/octet-stream');
+      } catch (encodeErr){
+        formError.textContent = "Couldn't read the resume file — try a different file, or submit without one.";
+        formError.classList.add('show');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit my interest';
+        return;
+      }
+    }
+
     try {
       await fetch(FORM_ENDPOINT, { method: 'POST', body: fd, mode: 'no-cors' });
       form.classList.add('hide');
@@ -440,6 +461,19 @@
       submitBtn.textContent = 'Submit my interest';
     }
   });
+
+  function fileToBase64_(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // result looks like "data:application/pdf;base64,JVBERi0xLjQ..."
+        const base64 = reader.result.split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
 </script>
 
 </body>
