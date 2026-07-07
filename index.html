@@ -96,6 +96,17 @@
     white-space:nowrap;
   }
 
+  .drive-link-row{
+    margin-top:16px;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .drive-link-row a{
+    color:var(--gold-bright);
+    text-decoration:underline;
+    text-underline-offset:3px;
+  }
+
   /* FORM SECTION */
   main{padding:56px 0 140px;}
 
@@ -116,6 +127,11 @@
 
   .field{margin-bottom:34px;}
 
+  .field-hint{
+    font-size:12.5px;color:var(--muted);margin-top:8px;line-height:1.5;
+  }
+  .field-hint a{color:var(--gold-bright);}
+
   .row2{
     display:grid;grid-template-columns:1fr 1fr;gap:28px;
     margin-bottom:34px;
@@ -127,7 +143,7 @@
     .row2{grid-template-columns:1fr;gap:0;}
   }
 
-  input[type=text],input[type=email],input[type=tel],textarea{
+  input[type=text],input[type=email],input[type=tel],textarea,select{
     width:100%;
     background:transparent;
     border:none;
@@ -140,8 +156,31 @@
     transition:border-color .2s ease;
   }
   input::placeholder,textarea::placeholder{color:#5C564A;}
-  input:focus,textarea:focus{border-bottom-color:var(--gold);}
+  input:focus,textarea:focus,select:focus{border-bottom-color:var(--gold);}
   input:invalid:not(:placeholder-shown){border-bottom-color:var(--error);}
+
+  select{
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23C9A452' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 4px center;
+    padding-right:22px;
+  }
+  select option{
+    background:var(--ink-2);
+    color:var(--cream);
+  }
+  select:invalid{color:#5C564A;}
+  select.has-value{color:var(--cream);}
+
+  #otherRoleWrap{
+    display:none;
+    margin-top:20px;
+  }
+  #otherRoleWrap.show{display:block;}
 
   textarea{resize:vertical;min-height:118px;line-height:1.55;}
 
@@ -286,6 +325,11 @@
       <span class="tag">Administration</span>
       <span class="tag">College Brother Affairs</span>
     </div>
+    <p class="drive-link-row">
+      Full descriptions and expectations for each role are available in the
+      <a href="https://drive.google.com/drive/folders/1RphY11BHc-3DVaZ3m0APWERpIbP79Kcf" target="_blank" rel="noopener noreferrer">Western Region Google Drive folder</a>.
+      Please review before selecting your preferred role below.
+    </p>
   </div>
 </header>
 
@@ -325,6 +369,51 @@
       <div class="field">
         <label class="field-label" for="alphaId">Alpha ID number<span class="req">*</span></label>
         <input type="text" id="alphaId" name="alphaId" placeholder="e.g., 3001111" required>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <p class="section-title">Preferred Role</p>
+
+    <div class="field">
+      <label class="field-label" for="preferredRole">
+        Which key function are you most interested in serving?<span class="req">*</span>
+      </label>
+      <select id="preferredRole" name="preferredRole" required>
+        <option value="" disabled selected>Select a role…</option>
+        <option value="Strategy Officer">Strategy Officer</option>
+        <option value="Operations Officer">Operations Officer</option>
+        <option value="Finance Officer">Finance Officer</option>
+        <option value="Communications & Social Media Officer">Communications &amp; Social Media Officer</option>
+        <option value="Technology Officer">Technology Officer</option>
+        <option value="Convention Planning Officer">Convention Planning Officer</option>
+        <option value="Investigations Officer">Investigations Officer</option>
+        <option value="Legal & Compliance Officer">Legal &amp; Compliance Officer</option>
+        <option value="Administration Officer">Administration Officer</option>
+        <option value="College Brother Affairs Officer">College Brother Affairs Officer</option>
+        <option value="Executive Communications Director">Executive Communications Director</option>
+        <option value="Assistant Director of Regional Conventions">Assistant Director of Regional Conventions</option>
+        <option value="Commission on College Brothers Affairs">Commission on College Brothers Affairs</option>
+        <option value="Investigation Team">Investigation Team</option>
+        <option value="Grievance Officer">Grievance Officer</option>
+        <option value="Culture & People Officer">Culture &amp; People Officer</option>
+        <option value="Partnership Coordinator">Partnership Coordinator</option>
+        <option value="Financial Secretary">Financial Secretary</option>
+        <option value="Webmaster">Webmaster</option>
+        <option value="Risk Management">Risk Management</option>
+        <option value="Compliance Officer">Compliance Officer</option>
+        <option value="Admin/Project Intern">Admin/Project Intern</option>
+        <option value="Other">Other (please specify)</option>
+      </select>
+      <p class="field-hint">
+        Review each role's full description in the
+        <a href="https://drive.google.com/drive/folders/1RphY11BHc-3DVaZ3m0APWERpIbP79Kcf" target="_blank" rel="noopener noreferrer">Google Drive folder</a>
+        before making your selection.
+      </p>
+
+      <div id="otherRoleWrap">
+        <label class="field-label" for="otherRole">Describe the role you have in mind<span class="req">*</span></label>
+        <input type="text" id="otherRole" name="otherRole" placeholder="e.g., Mentorship Coordinator">
       </div>
     </div>
 
@@ -387,6 +476,28 @@
     progressFill.style.width = (filled / requiredFields.length * 100) + '%';
   }
   requiredFields.forEach(f => f.addEventListener('input', updateProgress));
+
+  // preferred role dropdown + "Other" text box toggle
+  const preferredRole = document.getElementById('preferredRole');
+  const otherRoleWrap = document.getElementById('otherRoleWrap');
+  const otherRole = document.getElementById('otherRole');
+
+  preferredRole.addEventListener('change', () => {
+    preferredRole.classList.add('has-value');
+    if (preferredRole.value === 'Other'){
+      otherRoleWrap.classList.add('show');
+      otherRole.setAttribute('required', 'required');
+      if (!requiredFields.includes(otherRole)) requiredFields.push(otherRole);
+    } else {
+      otherRoleWrap.classList.remove('show');
+      otherRole.removeAttribute('required');
+      otherRole.value = '';
+      const idx = requiredFields.indexOf(otherRole);
+      if (idx > -1) requiredFields.splice(idx, 1);
+    }
+    updateProgress();
+  });
+  otherRole.addEventListener('input', updateProgress);
 
   // word counter / limiter
   const strengths = document.getElementById('strengths');
@@ -452,6 +563,12 @@
     submitBtn.textContent = 'Submitting…';
 
     const fd = new FormData(form);
+
+    // If "Other" was chosen, send the custom role text as the actual
+    // preferredRole value so the sheet stores something meaningful.
+    if (preferredRole.value === 'Other' && otherRole.value.trim()){
+      fd.set('preferredRole', otherRole.value.trim() + ' (Other)');
+    }
 
     // Apps Script's e.files often doesn't populate when a file is sent via
     // fetch()+FormData (only works reliably on a native browser form submit).
